@@ -10,3 +10,7 @@ Implements simple DOM structures and functions to assist JavaScript malware anal
 **Example**
 
 js -f redefine.js -f malware.js -i
+
+**Note!**
+
+This code is rather crude, work in progress. Please feel free to share updates, thoughts and suggestions.
