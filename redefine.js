@@ -34,40 +34,40 @@ log = function(id, message) {
 //
 
 document = {
-	elements: {},
+    elements: {},
     write: function(markup) {
         log("document.write", markup)
     },
     location: function(url) {
         log("document.location", url)
     },
-	getElementById: function(id) {
-		log("document.getElementById", id);
-		return this.elements[id];
-	},
-	appendChild: function(child) {
+    getElementById: function(id) {
+        log("document.getElementById", id);
+        return this.elements[id];
+    },
+    appendChild: function(child) {
         log("document.appendChild", JSON.stringify(child, null, 4));
     },
     createElement: function(name) {
-		log("document.createElement", name);
-		var element = {
-			name: name,
+        log("document.createElement", name);
+        var element = {
+            name: name,
             setAttribute: function(name, attribute) {
-				log(this.name + ".setAttribute", attribute)
-			},
-			appendChild: function(child) {
-				log(this.name + ".appendChild", JSON.stringify(child, null, 4))
-			},
-			set url(url) {
-				log(this.name + ".url", url)
-			},
-			style: {},
+                log(this.name + ".setAttribute", attribute)
+            },
+            appendChild: function(child) {
+                log(this.name + ".appendChild", JSON.stringify(child, null, 4))
+            },
+            set url(url) {
+                log(this.name + ".url", url)
+            },
+            style: {},
             name: name,
             rawParse: function(str) {
-				log(this.name + ".rawParse", str)
-			}
+                log(this.name + ".rawParse", str)
+            }
         };
-		this.elements[name] = element;
+        this.elements[name] = element;
         return element;
     },
     body: {
@@ -79,10 +79,10 @@ document = {
 
 window = {
     eval: print,
-	top: 0,
-	bottom: 0,
-	left: 0,
-	right: 0
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
 };
 
 eval = function(code) {
@@ -106,11 +106,11 @@ system = print;
 var baseGlobalKeys = Object.keys(this);
 
 function dump() {
-	// Dump any changes to window/document
-	print("window:" + JSON.stringify(window, null, 4));
-	print("document:" + JSON.stringify(document, null, 4));
+    // Dump any changes to window/document
+    print("window:" + JSON.stringify(window, null, 4));
+    print("document:" + JSON.stringify(document, null, 4));
 
-	// Dump any new global variables
+    // Dump any new global variables
     var globalKeys = Object.keys(this);
 
     for (var i = 0; i < globalKeys.length; i++) {
@@ -136,6 +136,5 @@ function dump() {
 //
 
 function shellcode() {
-	
-}
 
+}
