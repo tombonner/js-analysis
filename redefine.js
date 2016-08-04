@@ -35,8 +35,8 @@ log = function(id, message) {
 
 document = {
     elements: {},
-	referrer: "http://localhost/",
-	lastModified: new Date().toLocaleString(),
+    referrer: "http://localhost/",
+    lastModified: new Date().toLocaleString(),
     write: function(markup) {
         log("document.write", markup);
     },
@@ -57,17 +57,17 @@ document = {
         log("document.createElement", name);
         var element = {
             name: name,
-			elements: [],
+            elements: [],
             setAttribute: function(name, attribute) {
-				this[name] = attribute;
+                this[name] = attribute;
                 log(this.name + ".setAttribute", attribute)
             },
             appendChild: function(child) {
-				this.elements.push(child);
+                this.elements.push(child);
                 log(this.name + ".appendChild", JSON.stringify(child, null, 4))
             },
             set url(url) {
-				this["_url"] = url;
+                this["_url"] = url;
                 log(this.name + ".url", url);
             },
             style: {},
@@ -80,9 +80,9 @@ document = {
         return element;
     },
     body: {
-		elements: [],
+        elements: [],
         appendChild: function(child) {
-			this.elements.push(child);
+            this.elements.push(child);
             log("document.body.appendChild", JSON.stringify(child, null, 4));
         }
     }
@@ -95,15 +95,15 @@ window = {
     left: 0,
     right: 0,
     location: {
-		href:"http://localhost/"
-	},
+        href: "http://localhost/"
+    },
     navigate: function(url) {
         log("window.navigate", url);
     },
 };
 
 location = {
-	href:"http://localhost/"
+    href: "http://localhost/"
 }
 
 eval = function(code) {
@@ -119,23 +119,23 @@ console = {
 //
 
 app = {
-	setTimeOut: function(code, timeout) {
-		log("app.setTimeout", timeout);
-		eval(code);
-		return {}
-	},
-	clearTimeOut: function(id) {
-		log("app.clearTimeOut", id);
-		return {}
-	},
-	viewerVersion:"8.1"
+    setTimeOut: function(code, timeout) {
+        log("app.setTimeout", timeout);
+        eval(code);
+        return {}
+    },
+    clearTimeOut: function(id) {
+        log("app.clearTimeOut", id);
+        return {}
+    },
+    viewerVersion: "8.1"
 };
 
 Collab = {
-	collectEmailInfo: function(info) {
-		log("Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
-		return {}
-	}
+    collectEmailInfo: function(info) {
+        log("Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
+        return {}
+    }
 }
 
 //
