@@ -6,7 +6,7 @@
 
 	Date:		10-June-2016
 
-	Version:	0.1
+	Version:	0.2
 
 	Purpose:	Use with SpiderMonkey for analysing JS malware.
 
@@ -30,16 +30,21 @@ log = function(id, message) {
 };
 
 //
-// Redefine parts of the DOM that we need
+// Redefine DOM for browser based malware
 //
 
 document = {
     elements: {},
+	referrer: "http://localhost/",
+	lastModified: new Date().toLocaleString(),
     write: function(markup) {
-        log("document.write", markup)
+        log("document.write", markup);
+    },
+    writeln: function(markup) {
+        log("document.writeln", markup);
     },
     location: function(url) {
-        log("document.location", url)
+        log("document.location", url);
     },
     getElementById: function(id) {
         log("document.getElementById", id);
@@ -52,26 +57,32 @@ document = {
         log("document.createElement", name);
         var element = {
             name: name,
+			elements: [],
             setAttribute: function(name, attribute) {
+				this[name] = attribute;
                 log(this.name + ".setAttribute", attribute)
             },
             appendChild: function(child) {
+				this.elements.push(child);
                 log(this.name + ".appendChild", JSON.stringify(child, null, 4))
             },
             set url(url) {
-                log(this.name + ".url", url)
+				this["_url"] = url;
+                log(this.name + ".url", url);
             },
             style: {},
             name: name,
             rawParse: function(str) {
-                log(this.name + ".rawParse", str)
+                log(this.name + ".rawParse", str);
             }
         };
         this.elements[name] = element;
         return element;
     },
     body: {
+		elements: [],
         appendChild: function(child) {
+			this.elements.push(child);
             log("document.body.appendChild", JSON.stringify(child, null, 4));
         }
     }
@@ -82,8 +93,18 @@ window = {
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
+    location: {
+		href:"http://localhost/"
+	},
+    navigate: function(url) {
+        log("window.navigate", url);
+    },
 };
+
+location = {
+	href:"http://localhost/"
+}
 
 eval = function(code) {
     print(code);
@@ -92,6 +113,30 @@ eval = function(code) {
 console = {
     log: print
 };
+
+//
+// Redefine objects for PDF based malware
+//
+
+app = {
+	setTimeOut: function(code, timeout) {
+		log("app.setTimeout", timeout);
+		eval(code);
+		return {}
+	},
+	clearTimeOut: function(id) {
+		log("app.clearTimeOut", id);
+		return {}
+	},
+	viewerVersion:"8.1"
+};
+
+Collab = {
+	collectEmailInfo: function(info) {
+		log("Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
+		return {}
+	}
+}
 
 //
 // Ensure malware cannot use the system command!
