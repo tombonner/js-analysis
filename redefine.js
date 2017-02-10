@@ -85,6 +85,13 @@ document = {
             this.elements.push(child);
             log("document.body.appendChild", JSON.stringify(child, null, 4));
         }
+    },
+    head: {
+        elements: [],
+        appendChild: function(child) {
+            this.elements.push(child);
+            log("document.head.appendChild", JSON.stringify(child, null, 4));
+        }
     }
 };
 
