@@ -6,7 +6,7 @@
 
 	Date:		10-June-2016
 
-	Version:	0.2
+	Version:	0.3
 
 	Purpose:	Use with SpiderMonkey for analysing JS malware.
 
@@ -50,8 +50,17 @@ document = {
         log("document.getElementById", id);
         return this.elements[id];
     },
+    getElementsByTagName: function(tag) {
+        log("document.getElementByTagName", tag);
+        return [this.elements[tag]];
+    },
     appendChild: function(child) {
         log("document.appendChild", JSON.stringify(child, null, 4));
+    },
+    createTextNode: function(text) {
+        log("document.createTextNode", JSON.stringify(text, null, 4));
+        o = {data:text}
+        return o;
     },
     createElement: function(name) {
         log("document.createElement", name);
@@ -95,8 +104,14 @@ document = {
     }
 };
 
+org_eval = eval;
+
 window = {
-    eval: print,
+    eval: function(code) {
+        print("window.eval - " + code);
+
+        return org_eval(code);
+    },
     top: 0,
     bottom: 0,
     left: 0,
@@ -114,7 +129,17 @@ location = {
 }
 
 eval = function(code) {
-    print(code);
+    print("eval - " + code);
+
+    return org_eval(code);
+}
+
+org_unescape = unescape;
+
+unescape = function(string) {
+    print("unescape - " + string);
+
+    return org_unescape(string);
 }
 
 console = {
