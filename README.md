@@ -1,15 +1,17 @@
 js-analysis
 ===========
 
-Implements simple DOM structures and functions to assist JavaScript malware analysis using SpiderMonkey.
+Implements simple DOM/WScript/ActiveX/PDF objects and functions to assist JavaScript malware analysis using SpiderMonkey.
 
 **Version**
 
-0.3
+0.4
 
 **Example**
 
-js -f redefine.js -f malware.js -i
+```js -f redefine.js -f malware.js -i```
+
+Use the "dump()" command to display all global key/values.
 
 **Note!**
 
