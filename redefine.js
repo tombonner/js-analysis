@@ -6,7 +6,7 @@
 
 	Date:		10-June-2016
 
-	Version:	0.3
+	Version:	0.4
 
 	Purpose:	Use with SpiderMonkey for analysing JS malware.
 
