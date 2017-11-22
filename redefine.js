@@ -151,12 +151,12 @@ console = {
 //
 
 WScript = {
-	objects: {},
-	CreateObject: function(name) {
+    objects: {},
+    CreateObject: function(name) {
         log("WScript.CreateObject", name);
         var object = {
             name: name,
-			run: function(path) { log("run", path)}
+		    run: function(path) { log("run", path)}
         };
         this.objects[name] = object;
         return object;
@@ -168,11 +168,11 @@ WScript = {
 //
 
 ActiveXObject = function(name) {
-	log("ActiveXObject", name);
-	return {
-		name: name,
-		OpenTextFile: function(filename, mode) { log("OpenTextFile", path); return null }
-	};
+    log("ActiveXObject", name);
+    return {
+	    name: name,
+	    OpenTextFile: function(filename, mode) { log("OpenTextFile", path); return null }
+    };
 }
 
 //
@@ -215,6 +215,9 @@ function dump() {
     // Dump any changes to window/document
     print("window:" + JSON.stringify(window, null, 4));
     print("document:" + JSON.stringify(document, null, 4));
+    print("WScript:" + JSON.stringify(WScript, null, 4));
+    print("app:" + JSON.stringify(app, null, 4));
+    print("Collab:" + JSON.stringify(Collab, null, 4));
 
     // Dump any new global variables
     var globalKeys = Object.keys(this);
@@ -237,10 +240,3 @@ function dump() {
     }
 }
 
-//
-// ToDo: XOR shellcode scanning
-//
-
-function shellcode() {
-
-}
