@@ -147,6 +147,35 @@ console = {
 };
 
 //
+// WCscript
+//
+
+WScript = {
+	objects: {},
+	CreateObject: function(name) {
+        log("WScript.CreateObject", name);
+        var object = {
+            name: name,
+			run: function(path) { log("run", path)}
+        };
+        this.objects[name] = object;
+        return object;
+    },
+}
+
+//
+// ActiveXObject
+//
+
+ActiveXObject = function(name) {
+	log("ActiveXObject", name);
+	return {
+		name: name,
+		OpenTextFile: function(filename, mode) { log("OpenTextFile", path); return null }
+	};
+}
+
+//
 // Redefine objects for PDF based malware
 //
 
