@@ -147,11 +147,12 @@ console = {
 };
 
 //
-// WCscript
+// Redefine objects for WScript based malware
 //
 
 WScript = {
     objects: {},
+    ScriptFullName: "sample.js",
     CreateObject: function(name) {
         log("WScript.CreateObject", name);
         var object = {
@@ -161,18 +162,52 @@ WScript = {
         this.objects[name] = object;
         return object;
     },
+    echo: function(string) {
+        log("WScript.echo", string);
+    },
+    eval: function(code) {
+        log("WScript.eval", code);
+        org_eval(code);
+    },
+    Sleep: function(timeout) {
+        log("WScript.sleep", timeout);
+    }
 }
 
 //
-// ActiveXObject
+// Redefine objects for ActiveX based malware
 //
+
+ActiveXObjects = {
+    "MSXML2.XMLHTTP" : {
+        open: function(method, location, sth) {
+            log("MSXML2.XMLHTTP.open", method + " " + location);
+        },
+        send: function(data) {
+            log("MSXML2.XMLHTTP.send", data);
+        },
+        ResponseText: "Hello, Malware!"
+    },
+    "Scripting.FileSystemObject" : {
+        FileExists: function(file) {
+            log("Scripting.FileExists", file);
+            return true;
+        },
+        DeleteFile: function(file) {
+            log("Scripting.DeleteFile", file);
+            return true;
+        }
+    }
+}
 
 ActiveXObject = function(name) {
     log("ActiveXObject", name);
-    return {
-	    name: name,
-	    OpenTextFile: function(filename, mode) { log("OpenTextFile", path); return null }
-    };
+    try {
+        return ActiveXObjects[name];
+    }
+    catch (e) {
+        return {name: "name"};
+    }
 }
 
 //
