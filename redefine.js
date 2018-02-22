@@ -232,23 +232,24 @@ app = {
     },
     viewerVersion: "8.1",
     doc: {
-        Collab: {
-            collectEmailInfo: function(info) {
-                log("app.doc.Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
-                return {}
-            },
-            getIcon: function(icon) {
-                log("app.doc.Collab.getIcon", icon);
-                return {}
-            }
+        getIcon: function(icon) {
+            log("app.doc.Collab.getIcon", icon);
+            return;
         }
     }
-};
+}
+
+Collab = {
+    collectEmailInfo: function(info) {
+        log("Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
+        return;
+    }
+}
 
 util = {
     printf: function(string) {
         log("util.printf", string);
-        return {}
+        return;
     }
 }
 
