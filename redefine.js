@@ -170,7 +170,7 @@ WScript = {
         org_eval(code);
     },
     Sleep: function(timeout) {
-        log("WScript.sleep", timeout);
+        log("WScript.Sleep", timeout);
     }
 }
 
@@ -197,6 +197,11 @@ ActiveXObjects = {
             log("Scripting.DeleteFile", file);
             return true;
         }
+    },
+    "WScript.Shell": {
+        ExpandEnvironmentStrings: function(env) {
+            log("WScript.Shell.ExpandEnvironmentStrings", env);
+        }
     }
 }
 
@@ -214,6 +219,7 @@ ActiveXObject = function(name) {
 // Redefine objects for PDF based malware
 //
 
+
 app = {
     setTimeOut: function(code, timeout) {
         log("app.setTimeout", timeout);
@@ -224,12 +230,24 @@ app = {
         log("app.clearTimeOut", id);
         return {}
     },
-    viewerVersion: "8.1"
+    viewerVersion: "8.1",
+    doc: {
+        Collab: {
+            collectEmailInfo: function(info) {
+                log("app.doc.Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
+                return {}
+            },
+            getIcon: function(icon) {
+                log("app.doc.Collab.getIcon", icon);
+                return {}
+            }
+        }
+    }
 };
 
-Collab = {
-    collectEmailInfo: function(info) {
-        log("Collab.collectEmailInfo", "Subject: " + info.subj + ", Message:" + info.msg);
+util = {
+    printf: function(string) {
+        log("util.printf", string);
         return {}
     }
 }
@@ -252,7 +270,6 @@ function dump() {
     print("document:" + JSON.stringify(document, null, 4));
     print("WScript:" + JSON.stringify(WScript, null, 4));
     print("app:" + JSON.stringify(app, null, 4));
-    print("Collab:" + JSON.stringify(Collab, null, 4));
 
     // Dump any new global variables
     var globalKeys = Object.keys(this);
