@@ -155,12 +155,21 @@ WScript = {
     ScriptFullName: "sample.js",
     CreateObject: function(name) {
         log("WScript.CreateObject", name);
+        if (name in ActiveXObjects)
+        {
+            return ActiveXObject(name);
+        }
         var object = {
             name: name,
-		    run: function(path) { log("run", path)}
+		    Run: function(path) { 
+                log("Wscript.Run", path);
+            }
         };
         this.objects[name] = object;
         return object;
+    },
+    run: function(path) { 
+        log("run", path);
     },
     echo: function(string) {
         log("WScript.echo", string);
@@ -171,6 +180,12 @@ WScript = {
     },
     Sleep: function(timeout) {
         log("WScript.Sleep", timeout);
+    },
+    sleep: function(duration) { 
+        log("Wscript.sleep", duration);
+    },
+    Quit: function() { 
+        log("Wscript.Quit");
     }
 }
 
@@ -179,6 +194,19 @@ WScript = {
 //
 
 ActiveXObjects = {
+    "MSXML2.ServerXMLHTTP" : {
+        open: function(method, location, sth) {
+            log("MSXML2.ServerXMLHTTP.open", method + " " + location);
+        },
+        send: function(data) {
+            log("MSXML2.ServerXMLHTTP.send", data);
+        },
+        ResponseXML: {
+            xml: "<xml></xml>"
+        },
+        responseText: "Hello, Malware!",
+        status: 200
+    },
     "MSXML2.XMLHTTP" : {
         open: function(method, location, sth) {
             log("MSXML2.XMLHTTP.open", method + " " + location);
@@ -186,7 +214,8 @@ ActiveXObjects = {
         send: function(data) {
             log("MSXML2.XMLHTTP.send", data);
         },
-        ResponseText: "Hello, Malware!"
+        ResponseText: "Hello, Malware!",
+        status: 200
     },
     "Scripting.FileSystemObject" : {
         FileExists: function(file) {
@@ -201,6 +230,25 @@ ActiveXObjects = {
     "WScript.Shell": {
         ExpandEnvironmentStrings: function(env) {
             log("WScript.Shell.ExpandEnvironmentStrings", env);
+            return "";
+        },
+        Run: function(path) { 
+            log("Wscript.Shell.Run", path);
+        },
+        RegRead: function(reg) { 
+            log("Wscript.Shell.RegRead", reg);
+            return "0";
+        },
+        RegDelete: function(reg) { 
+            log("Wscript.Shell.RegDelete", reg);
+        },
+        RegWrite: function(reg, value) { 
+            log("Wscript.Shell.RegWrite", reg + value);
+        },
+    },
+    "Shell.Application": {
+        ShellExecute: function(path) { 
+            log("Shell.Application.ShellExecute", path);
         }
     }
 }
@@ -286,7 +334,6 @@ function dump() {
                 break;
             }
         }
-
         if (found == false) {
             print(key + ":" + JSON.stringify(this[key], null, 4));
         }
