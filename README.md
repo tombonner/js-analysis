@@ -5,7 +5,7 @@ Implements simple DOM/WScript/ActiveX/PDF objects and functions to assist JavaSc
 
 **Version**
 
-0.4
+0.5
 
 **Example**
 
